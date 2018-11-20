@@ -21,11 +21,13 @@ Currently, this version 0.1 does NOT get any popular tweets from the given hasht
 When making the website to put these on, we can use JS to open up the json again and sort it out as we need.
 """
 
-import tweepy
-import json
-import time
 import datetime
+import json
 import math
+import sched
+import time
+import tweepy
+
 
 # Where On Earth IDs.
 # Used to search trends by a specific location.
@@ -59,6 +61,13 @@ def save_as_json(daily_trends):
         json.dump(daily_trends, fp)
     fp.close()
     return
+
+def seconds_until_midnight():
+    """Get the number of seconds until midnight."""
+    tomorrow = datetime.datetime.now() + datetime.timedelta(1)
+    midnight = datetime.datetime(year=tomorrow.year, month=tomorrow.month,
+                        day=tomorrow.day, hour=0, minute=0, second=0)
+    return (midnight - datetime.datetime.now()).seconds
 
 def main():
 
@@ -119,5 +128,13 @@ def main():
 
 
 if __name__ == "__main__":
-    ## make this run at midnight
-    main()
+    """
+    Set up a job scheduler to run at Midnight on the day this instance is started
+    This will let us have an accurate representation of the day from
+    00:00 ==> 23:55
+    """
+    stm = seconds_until_midnight()
+    scheduler = sched.scheduler(time.time, time.sleep)
+    scheduler.enter(stm, 1, main, ());
+    print "Script will begin running in " + str(stm) + " seconds."
+    scheduler.run()
