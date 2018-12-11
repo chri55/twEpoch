@@ -121,11 +121,6 @@ def main():
         daily_trends = {}
         tomorrow = tomorrow + datetime.timedelta(days=1)
         stop_query = tomorrow - datetime.timedelta(minutes=5)
-        time.sleep(5 * MINUTE)
-
-
-
-
 
 if __name__ == "__main__":
     """
