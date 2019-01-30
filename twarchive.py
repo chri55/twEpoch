@@ -128,6 +128,7 @@ if __name__ == "__main__":
     This will let us have an accurate representation of the day from
     00:00 ==> 23:55
     """
+    print("beginning")
     stm = seconds_until_midnight()
     scheduler = sched.scheduler(time.time, time.sleep)
     scheduler.enter(stm, 1, main, ());
