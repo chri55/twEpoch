@@ -27,6 +27,7 @@ import math
 import sched
 import time
 import tweepy
+import os
 
 
 # Where On Earth IDs.
