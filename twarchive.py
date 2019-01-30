@@ -71,6 +71,8 @@ def seconds_until_midnight():
 
 def main():
 
+    first_time_running = True
+
     client = setup_tweepy()
     daily_trends = {}
 
@@ -82,7 +84,7 @@ def main():
     print("\nStart running on: " + datetime.datetime.today().strftime("%x") + "\n\n")
 
     while(1):
-        while(datetime.datetime.now() < stop_query): ## run up to 11:55 on the given day.
+        while(datetime.datetime.now() < stop_query): ## run up to 11:55 on the given day.                
             print("Calling Twitter")
             twitter_response = sorted(client.trends_place(US_WOEID)[0]['trends'],
                                   key=lambda k: 0 if (not k['tweet_volume']) else (k['tweet_volume']),

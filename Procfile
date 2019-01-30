@@ -1,1 +1,1 @@
-web: python twarchive.py
+bot: python twarchive.py
