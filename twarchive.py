@@ -79,7 +79,7 @@ def main():
     # stop polling right before "tomorrow"
     stop_query = datetime.datetime(tomorrow.year, tomorrow.month, tomorrow.day, 0, 0, 0, 0) - datetime.timedelta(minutes=5)
 
-    print "\nStart running on: " + datetime.datetime.today().strftime("%x") + "\n\n"
+    print("\nStart running on: " + datetime.datetime.today().strftime("%x") + "\n\n")
 
     while(1):
         while(datetime.datetime.now() < stop_query): ## run up to 11:55 on the given day.
@@ -108,7 +108,7 @@ def main():
             #print daily trends to ensure it's still working
             #print daily_trends
 
-            print "\nUpdated. Sleeping until " + (datetime.datetime.today() + datetime.timedelta(hours=1)).strftime("%X") + "\n"
+            print("\nUpdated. Sleeping until " + (datetime.datetime.today() + datetime.timedelta(hours=1)).strftime("%X") + "\n")
             time.sleep(HOUR)
         """
         now we perform our "end of day" tasks
@@ -131,5 +131,5 @@ if __name__ == "__main__":
     stm = seconds_until_midnight()
     scheduler = sched.scheduler(time.time, time.sleep)
     scheduler.enter(stm, 1, main, ());
-    print "Script will begin running in " + str(stm) + " seconds."
+    print("Script will begin running in " + str(stm) + " seconds.")
     scheduler.run()
