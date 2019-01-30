@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light Theme</title>
+<link href="css/singlePageTemplate.css" rel="stylesheet" type="text/css">
+
+<!--The following script tag downloads a font from the Adobe Edge Web Fonts server for use within the web page. We recommend that you do not modify it.-->
+<script>var __adobewebfontsappname__="dreamweaver"</script>
+<script src="http://use.edgefonts.net/source-sans-pro:n2:default.js" type="text/javascript"></script>
+
+<script src="js/dateHandler.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!-- Main Container -->
+<div class="container">
+  <!-- Navigation -->
+  <header> <a href="">
+    </a>
+	<img src="css/images/SVG/Asset 3.svg"/>
+    <nav>
+      <ul>
+        <li><a href="#hero">TODAY</a></li>
+        <li><a href="#about">YESTERDAY</a></li>
+        <li> <a href="#contact">See Archive...</a></li>
+      </ul>
+    </nav>
+  </header>
+  <!-- Hero Section -->
+<section class="hero" id="hero">
+    <h2 class="hero_header">TwEpoch</h2>
+    <p class="tagline">The Twitter Trends Archive</p>
+  </section>
+  <!-- About Section -->
+
+  <div class="about" id="about">
+    <div id = "yesterday" class="column">
+		<h1>About</h1>
+		<p><span style="font-size: 24px; font-weight: bold; color:#4eadff;">TwEpoch</span> is intended to keep a record of trends on <a href="https://twitter.com">Twitter.</a></p>
+		<p>We often see things that are popular on Twitter for a day or so, and then they are lost to time,
+			so this website was intended to be a way to look back on certain days in history, and be able to
+			pinpoint the conversations tha were happening on the most popular social media platform of the time.  </p>
+        <p>
+            The point of making the website is to have a way to organize and visualize the data I collect,
+            and for others to more easily be able to see it as well.
+        </p>
+    </div>
+	<div id="today" class="column">
+	  <h1 id="todayHead">Today</h1>
+	  <div id="data">
+	  <p>1. Data 1</p>
+	  <p>2. Thing 2</p>
+	  <p>3. Thing Three</p>
+      <p>1. Data 1</p>
+	  <p>2. Thing 2</p>
+	  <p>3. Thing Three</p>
+	  </div>
+	</div>
+	<div id="archivelink" class="column">
+	  <h1>See Archive...</h1>
+	  <p>Pick a date from the archive:</p>
+	  <input name="datepicker" id="datepicker" type="date" min="2018-11-29" max="2018-12-04">
+	  <a id="dateLink" href="#"><input type="button" id="go" value="Go" onClick="loadDate();"></a>
+		<p>Select a date from the archive to see the top 10 trending topics on Twitter on that day. </p>
+        <p>
+            <b>Currently, data ranges from 2018/11/29 to 2018/12/04.</b>
+        </p>
+		<p>Popularity of trends is based on how much they were tweeted about in a given hour of that day (also called a topic's "Tweet Volume").</p>
+	</div>
+  </div>
+
+</div>
+<!-- Stats Gallery Section -->
+  <!--
+  <div class="gallery">
+    <div class="thumbnail">
+      <h1 class="stats">1500</h1>
+      <h4>TITLE</h4>
+      <p>One line description</p>
+    </div>
+    <div class="thumbnail">
+      <h1 class="stats">2300</h1>
+      <h4>TITLE</h4>
+      <p>One line description</p>
+    </div>
+    <div class="thumbnail">
+      <h1 class="stats">djhcebrjkvw</h1>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <h4>TITLE</h4>
+      <p>One line description</p>
+    </div>
+    <div class="thumbnail">
+      <h1 class="stats">9870</h1>
+      <h4>TITLE</h4>
+      <p>One line description</p>
+    </div>
+  </div>
+  -->
+  <!-- More Info Section -->
+  <!-- Copyrights Section -->
+  <!-- Main Container Ends -->
+</body>
+</html>
