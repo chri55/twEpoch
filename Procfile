@@ -1,1 +1,1 @@
-bot: python twarchive.py
+worker: python twarchive.py
