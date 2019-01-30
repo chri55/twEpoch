@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-TwEpoch: Twitter Archiver v0.1
+TwEpoch: Twitter Archiver v0.2
 
 The main loop grabs a response from twitter, sorts it based on the most popular
 tweets, ("tweet_volume"), and then gets processed and the TOP 10 added to our
@@ -37,6 +37,11 @@ WORLDWIDE_WOEID = 1
 HOUR = 3600
 MINUTE = 60
 
+KEY = ""
+SECRET = ""
+APP_TOKEN = ""
+APP_SECRET = ""
+
 
 def setup_tweepy():
     """set up and return tweepy client using our keyfile"""
@@ -63,14 +68,30 @@ def save_as_json(daily_trends):
     return
 
 def seconds_until_midnight():
-    """Get the number of seconds until midnight."""
+    """Get the number of seconds until midnight"""
     tomorrow = datetime.datetime.now() + datetime.timedelta(1)
     midnight = datetime.datetime(year=tomorrow.year, month=tomorrow.month,
                         day=tomorrow.day, hour=0, minute=0, second=0)
     return (midnight - datetime.datetime.now()).seconds
 
+def verify_creds():
+    KEY = os.environ.get("KEY", None)
+    SECRET = os.environ.get("SECRET", None)
+    APP_TOKEN = os.environ.get("APP_TOKEN", None)
+    APP_SECRET = os.environ.get("APP_SECRET", None)
+
+    if (KEY != "" and SECRET != "" and APP_TOKEN != "" and APP_SECRET != ""):
+        print("Verified Twitter keys.")
+        return
+    else:
+        print("Incorrect environment vars. Shutting down...")
+        sys.exit(1);
+
+
+
 def main():
 
+    #prevent the app from saving an empty file at midnight of its first day running.
     first_time_running = True
 
     client = setup_tweepy()
@@ -84,7 +105,7 @@ def main():
     print("\nStart running on: " + datetime.datetime.today().strftime("%x") + "\n\n")
 
     while(1):
-        while(datetime.datetime.now() < stop_query): ## run up to 11:55 on the given day.                
+        while(datetime.datetime.now() < stop_query): ## run up to 11:55 on the given day.
             print("Calling Twitter")
             twitter_response = sorted(client.trends_place(US_WOEID)[0]['trends'],
                                   key=lambda k: 0 if (not k['tweet_volume']) else (k['tweet_volume']),
@@ -118,9 +139,12 @@ def main():
         - update date to a new tomorrow
         - sleep for the rest of the day
         """
-        save_as_json(daily_trends)
+        if first_time_running:
+            first_time_running = False
+        else:
+            save_as_json(daily_trends)
+            daily_trends = {}
 
-        daily_trends = {}
         tomorrow = tomorrow + datetime.timedelta(days=1)
         stop_query = tomorrow - datetime.timedelta(minutes=5)
 
@@ -130,7 +154,7 @@ if __name__ == "__main__":
     This will let us have an accurate representation of the day from
     00:00 ==> 23:55
     """
-    print("beginning")
+    verify_creds()
     stm = seconds_until_midnight()
     scheduler = sched.scheduler(time.time, time.sleep)
     scheduler.enter(stm, 1, main, ());
