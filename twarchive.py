@@ -46,16 +46,8 @@ APP_SECRET = ""
 
 def setup_tweepy():
     """set up and return tweepy client using our keyfile"""
-    keyfile = open('keys', 'r')
-    key = keyfile.readline().strip()
-    secret = keyfile.readline().strip()
-    auth = tweepy.OAuthHandler(key, secret)
-
-    app_token = keyfile.readline().strip()
-    app_secret = keyfile.readline().strip()
-    auth.set_access_token(app_token, app_secret)
-
-    keyfile.close()
+    auth = tweepy.OAuthHandler(KEY, SECRET)
+    auth.set_access_token(APP_TOKEN, APP_SECRET)
     client = tweepy.API(auth, wait_on_rate_limit=True)
     return client
 
