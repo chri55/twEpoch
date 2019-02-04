@@ -16,7 +16,7 @@ increase popularity.
 [Note: 1 is most popular rank, 10 is least popular rank.]
 [Note 2: This popularity sorting doesn't really need to be done until the javascript phase.]
 
-Currently, this version 0.1 does NOT get any popular tweets from the given hashtag or trend.
+Currently, this version 0.2 does NOT get any popular tweets from the given hashtag or trend.
 
 When making the website to put these on, we can use JS to open up the json again and sort it out as we need.
 """
@@ -45,7 +45,20 @@ APP_SECRET = ""
 
 
 def setup_tweepy():
-    """set up and return tweepy client using our keyfile"""
+    """set up and return tweepy client using our env variables"""
+    KEY = os.environ.get("KEY", None)
+    print(KEY)
+    SECRET = os.environ.get("SECRET", None)
+    print(SECRET)
+    APP_TOKEN = os.environ.get("APP_TOKEN", None)
+    print(APP_TOKEN)
+    APP_SECRET = os.environ.get("APP_SECRET", None)
+    print(APP_SECRET)
+    if (KEY != "" and SECRET != "" and APP_TOKEN != "" and APP_SECRET != ""):
+        print("Verified Twitter keys.")
+    else:
+        print("Incorrect environment vars. Shutting down...")
+        sys.exit(1);
     auth = tweepy.OAuthHandler(KEY, SECRET)
     auth.set_access_token(APP_TOKEN, APP_SECRET)
     client = tweepy.API(auth, wait_on_rate_limit=True)
@@ -66,21 +79,6 @@ def seconds_until_midnight():
     midnight = datetime.datetime(year=tomorrow.year, month=tomorrow.month,
                         day=tomorrow.day, hour=0, minute=0, second=0)
     return (midnight - datetime.datetime.now()).seconds
-
-def verify_creds():
-    KEY = os.environ.get("KEY", None)
-    SECRET = os.environ.get("SECRET", None)
-    APP_TOKEN = os.environ.get("APP_TOKEN", None)
-    APP_SECRET = os.environ.get("APP_SECRET", None)
-
-    if (KEY != "" and SECRET != "" and APP_TOKEN != "" and APP_SECRET != ""):
-        print("Verified Twitter keys.")
-        return
-    else:
-        print("Incorrect environment vars. Shutting down...")
-        sys.exit(1);
-
-
 
 def main():
 
@@ -147,7 +145,6 @@ if __name__ == "__main__":
     This will let us have an accurate representation of the day from
     00:00 ==> 23:55
     """
-    verify_creds()
     stm = seconds_until_midnight()
     scheduler = sched.scheduler(time.time, time.sleep)
     scheduler.enter(stm, 1, main, ());
