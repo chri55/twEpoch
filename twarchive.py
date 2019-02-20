@@ -64,10 +64,9 @@ def setup_tweepy():
     client = tweepy.API(auth, wait_on_rate_limit=True)
     return client
 
-def save_as_json(daily_trends):
+def save_as_json(daily_trends, filename):
     """save a json version of our daily trends to use with other programs"""
 
-    filename = datetime.datetime.today().strftime("database/%m_%d_%Y.json")
     with open(filename, 'w') as fp:
         json.dump(daily_trends, fp)
     fp.close()
@@ -87,6 +86,8 @@ def main():
 
     client = setup_tweepy()
     daily_trends = {}
+    # set up our filename
+    filename = datetime.datetime.today().strftime("database/%m_%d_%Y.json")
 
     #calculate tomorrow's date so we can use it to know when to stop querying.
     tomorrow = datetime.datetime.today() + datetime.timedelta(days=1)
@@ -96,7 +97,7 @@ def main():
     print("\nStart running on: " + datetime.datetime.today().strftime("%x") + "\n\n")
 
     while(1):
-        while(datetime.datetime.now() < stop_query): ## run up to 11:55 on the given day.
+        while(datetime.datetime.now() < stop_query):
             print("Calling Twitter")
             twitter_response = sorted(client.trends_place(US_WOEID)[0]['trends'],
                                   key=lambda k: 0 if (not k['tweet_volume']) else (k['tweet_volume']),
@@ -123,6 +124,10 @@ def main():
             #print daily_trends
 
             print("\nUpdated. Sleeping until " + (datetime.datetime.today() + datetime.timedelta(hours=1)).strftime("%X") + "\n")
+            #prevent data loss during the day x(
+            #if we save over the file, it rewrites it, so at the very least we will
+            # have half a complete file over nothing at all.
+            save_as_json(daily_trends, filename)
             time.sleep(HOUR)
         """
         now we perform our "end of day" tasks
@@ -133,11 +138,12 @@ def main():
         if first_time_running:
             first_time_running = False
         else:
-            save_as_json(daily_trends)
+            save_as_json(daily_trends, filename)
             daily_trends = {}
 
         tomorrow = tomorrow + datetime.timedelta(days=1)
         stop_query = tomorrow - datetime.timedelta(minutes=5)
+        filename = datetime.datetime.today().strftime("database/%m_%d_%Y.json") 
 
 if __name__ == "__main__":
     """
